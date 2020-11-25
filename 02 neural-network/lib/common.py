@@ -66,4 +66,45 @@ def cross_entropy_error(y, t):
     e = -np.sum(t * np.log(y+delta)) / batch_size
     return e
 
+def numerical_gradient(f, w, x, t):
+
+    """
+    return 변수 x (벡터, 1차원 numpy array)에 대한 편미분 결과(벡터, 1차원 numpy array) 반환
+
+    :param f: 손실함수
+    :param w:
+    :param x:
+    :param t:
+    :return:
+    """
+
+    h = 1e-4
+    dx = np.zeros_like(w)
+
+    for i in range(w.size):
+        tmp = w[i]
+
+        w[i] = tmp + h
+        h1 = f(w, x, t)
+
+        w[i] = tmp - h
+        h2 = f(w, x, t)
+
+        dx[i] = (h1 - h2) / (2 * h)
+        w[i] = tmp
+
+    return dx
+
+
+
+
+
+
+
+
+
+
+
+
+
 
