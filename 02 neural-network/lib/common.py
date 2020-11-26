@@ -58,50 +58,94 @@ def cross_entropy_error(y, t):
         y = y.reshape(1, y.size)
         t = t.reshape(1, t.size)
 
-    print(y.shape)
+    #print(y.shape)
     batch_size = y.shape[0]
-    print(batch_size)
+    #print(batch_size)
 
     delta = 1.e-7
     e = -np.sum(t * np.log(y+delta)) / batch_size
     return e
+#
+# def numerical_gradient1(f, w, x, t):
+#
+#     """
+#     return 변수 x (벡터, 1차원 numpy array)에 대한 편미분 결과(벡터, 1차원 numpy array) 반환
+#
+#     :param f: 손실함수
+#     :param w:
+#     :param x:
+#     :param t:
+#     :return:
+#     """
+#
+#     h = 1e-4
+#     dx = np.zeros_like(w)
+#
+#     for i in range(w.size):
+#         tmp = w[i]
+#
+#         w[i] = tmp + h
+#         h1 = f(w, x, t)
+#
+#         w[i] = tmp - h
+#         h2 = f(w, x, t)
+#
+#         dx[i] = (h1 - h2) / (2 * h)
+#         w[i] = tmp
+#
+#     return dx
+#
 
-def numerical_gradient(f, w, x, t):
-
-    """
-    return 변수 x (벡터, 1차원 numpy array)에 대한 편미분 결과(벡터, 1차원 numpy array) 반환
-
-    :param f: 손실함수
-    :param w:
-    :param x:
-    :param t:
-    :return:
-    """
-
+def numerical_diff1(f, w, x, t):
     h = 1e-4
-    dx = np.zeros_like(w)
+    gradient = np.zeros_like(w)
 
-    for i in range(w.size):
-        tmp = w[i]
+    it = np.nditer(w, flags=['multi_index'], op_flags=['readwrite'])
+    while not it.finished:
+        idx = it.multi_index
+        tmp = w[idx]
 
-        w[i] = tmp + h
+        w[idx] = tmp + h
         h1 = f(w, x, t)
 
-        w[i] = tmp - h
+        w[idx] = tmp - h
         h2 = f(w, x, t)
 
-        dx[i] = (h1 - h2) / (2 * h)
-        w[i] = tmp
+        gradient[idx] = (h1 - h2) / (2*h)
 
-    return dx
+        w[idx] = tmp        #값 복원 시키기
+
+        it.iternext()
+
+    return gradient
+
+numerical_gradient1 = numerical_diff1
 
 
+def numerical_diff2(f, w):
+    h = 1e-4
+    gradient = np.zeros_like(w)
 
+    it = np.nditer(w, flags=['multi_index'], op_flags=['readwrite'])
+    while not it.finished:
+        idx = it.multi_index
+        tmp = w[idx]
 
+        w[idx] = tmp + h
+        h1 = f(w)
 
+        w[idx] = tmp -h
+        h2 = f(w)
 
+        gradient[idx] = (h1 - h2) / (2*h)
 
+        w[idx] = tmp
 
+        it.iternext()
+
+    return gradient
+
+numerical_gradient2 = numerical_diff2
 
 
 
