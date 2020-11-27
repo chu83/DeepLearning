@@ -25,7 +25,7 @@ params = {
     'b1' :np.array([0.45, 0.23, 0.11])
 }
 
-def foward_progation():
+def forward_progation():
     w1 = params['w1']
     b1 = params['b1']
 
@@ -34,7 +34,7 @@ def foward_progation():
     return y                         #softmax(x @ w)
 
 def loss():                        #softmax
-    y = foward_progation()
+    y = forward_progation()
     e = cross_entropy_error(y, t)
 
     return e

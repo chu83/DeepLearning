@@ -53,8 +53,8 @@ for idx in range(numiters):
     # 4-1. fetch mini-batch
     batch_mask = np.random.choice(sztrain, szbatch)
     #print(batch_mask)
-    train_x_batch = train_x[batch_mask]
-    train_t_batch = train_t[batch_mask]
+    train_x_batch = train_x[batch_mask]             #100*784
+    train_t_batch = train_t[batch_mask]             #100*10
 
     #print(train_x_batch.shape)
 

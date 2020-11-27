@@ -19,13 +19,13 @@ except ImportError:
 x = np.array([0.6, 0.9])        # 입력(x)              2 vector
 t = np.array([0., 0., 1.])      # label(one-hot)      3 vector
 
-def foward_progation(w):
+def forward_progation(w):
     a = np.dot(x, w)
     y = softmax(a)
     return y        #softmax(x @ w)
 
 def loss(w):      #softmax
-    y = foward_progation(w)
+    y = forward_progation(w)
     e = cross_entropy_error(y, t)
 
     return e
