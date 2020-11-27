@@ -4,10 +4,7 @@ import time
 import numpy as np
 import os
 import sys
-from matplotlib import pyplot as plt
 from pathlib import Path
-from PIL import Image
-
 
 try:
     sys.path.append(os.path.join(Path(os.getcwd()).parent, 'lib'))
@@ -37,7 +34,7 @@ sztrain = train_x.shape[0]
 ratelearning  = 0.1
 
 # 3. initialize network
-network.initialize(sz_input = train_x.shape[1], sz_hidden = 3, sz_output = train_t.shape[1])
+network.initialize(sz_input = train_x.shape[1], sz_hidden = 50, sz_output = train_t.shape[1])
 # print(network.params['w1'].shape)
 # print(network.params['b1'].shape)
 # print(network.params['w2'].shape)
@@ -47,7 +44,6 @@ network.initialize(sz_input = train_x.shape[1], sz_hidden = 3, sz_output = train
 # 4. training
 train_losses =[]
 for idx in range(numiters):
-    start = time.time()
     print(f'start')
     # 4-1. fetch mini-batch
     batch_mask = np.random.choice(sztrain, szbatch)
@@ -59,7 +55,10 @@ for idx in range(numiters):
 
 
     # 4-2. gradient
-    gradient = network.numerical_gradient_net(train_x, train_t)
+    start = time.time()
+
+    gradient = network.numerical_gradient_net(train_x_batch, train_t_batch)
+    elapsed = time.time() - start
 
     # 4-3. update parameter
     for key in network.params:
