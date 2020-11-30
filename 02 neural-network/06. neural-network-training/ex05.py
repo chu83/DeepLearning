@@ -52,7 +52,7 @@ train_losses =[]
 train_accuracies = []
 test_accuracies = []
 
-for idx in range(numiters+1):
+for idx in range(1, numiters+1):
     print(f'start')
     # 4-1. fetch mini-batch
     batch_mask = np.random.choice(sztrain, szbatch)
@@ -78,8 +78,8 @@ for idx in range(numiters+1):
     train_losses.append(loss)
 
     # 4-5 : accuracy per epoch
-    #if idx / szepoch ==0:
-    if True:
+    if idx / szepoch ==0:
+    #if True:
         train_accuracy = network.accuracy(train_x, train_t)       # 전수검사
         train_accuracies.append(train_accuracy)
 
