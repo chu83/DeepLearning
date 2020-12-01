@@ -22,10 +22,10 @@ discount = 0.9
 
 # layers
 
-layer1 = Multiply()
-layer2 = Multiply()
-layer3 = Add()
-layer4 = Multiply()
+layer1_1 = Multiply()       # 병렬
+layer1_2 = Multiply()
+layer2 = Add()
+layer3 = Multiply()
 
 
 # forward
@@ -34,16 +34,16 @@ orangeprice = 0
 appleorangeprice = 0
 totalprice = 0
 
-appleprice = layer1.forward(apple, applecount)
+appleprice = layer1_1.forward(apple, applecount)
 print(f'appleprice = {appleprice}')
 
-orangeprice = layer2.forward(orange, orangecount)
+orangeprice = layer1_2.forward(orange, orangecount)
 print(f'orangeprice = {orangeprice}')
 
-appleorangeprice = layer3.forward(appleprice, orangeprice)
+appleorangeprice = layer2.forward(appleprice, orangeprice)
 print(f'appleorangeprice = {appleorangeprice}')
 
-totalprice = layer4.forward(appleorangeprice, discount)
+totalprice = layer3.forward(appleorangeprice, discount)
 print(f'totalprice = {totalprice}')
 
 print('====================================')
@@ -64,16 +64,16 @@ dapplecount = 3
 dorange =200
 dorangecount = 5
 
-dappleorangeprice, ddiscount = layer4.backward(1)
+dappleorangeprice, ddiscount = layer3.backward(1)
 print(f'dappleorangeprice = {dappleorangeprice}, ddiscount = {ddiscount}')
 
-dappleprice, dorangeprice = layer3.backward(dappleorangeprice)
+dappleprice, dorangeprice = layer2.backward(dappleorangeprice)
 print(f'dappleprice = {dappleprice}, dorangeprice = {dorangeprice}')
 
-dorange, dorangecount = layer2.backward(1)
+dorange, dorangecount = layer1_2.backward(dorangeprice)
 print(f'dorange = {dorange}, dorangecount : {dorangecount}')
 
-dapple, dapplecount = layer1.backward(1)
+dapple, dapplecount = layer1_1.backward(dappleprice)
 print(f'dapple = {dapple}, dapplecount : {dapplecount}')
 
 
