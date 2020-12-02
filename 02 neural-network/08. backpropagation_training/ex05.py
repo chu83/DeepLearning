@@ -49,7 +49,7 @@ test_accuracies = []
 
 
 for idx in range(1, iterations+1):
-    print(f'start')
+
     # 4-1. fetch mini-batch
     batch_mask = np.random.choice(train_size, batch_size)
     train_x_batch = train_x[batch_mask]             #100*784
@@ -83,7 +83,7 @@ for idx in range(1, iterations+1):
 
         print(f'\nEpoch {epoch_idx:02d}/{epochs:02d}')
 
-        print(f'{int(idx/epoch_size)}/{epoch_size}: - elapsed time : {elapsed*1000:.33f}ms - loss :{loss:.3f}, ')
+        print(f'{int(idx/epoch_size)}/{epoch_size}: - elapsed time : {elapsed*1000:.3f}ms - loss :{loss:.3f}, ')
 
         elapsed = 0
 
@@ -97,7 +97,7 @@ trainloss_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_train_loss.pkl'
 trainacc_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_trainacc.pkl')
 testacc_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_testacc.pkl')
 
-print(f'creating pickle...')
+print(f'\n save model...')
 
 with open(params_file, 'wb') as f_params,\
         open(trainloss_file, 'wb') as f_trainloss,\
