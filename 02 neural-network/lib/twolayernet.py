@@ -86,6 +86,7 @@ def numerical_gradient_net(x, t):
             param[idx] = tmp
 
             it.iternext()
+
         gradient[key] = param_gradient
 
     return gradient

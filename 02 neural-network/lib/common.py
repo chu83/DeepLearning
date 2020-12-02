@@ -12,6 +12,7 @@ def relu(x):
     #     return 0
     # return x if x > 0 else 0
     return np.maximum(0,x)
+
 def identity(x):
     return x
 
@@ -22,7 +23,6 @@ def softmax_overflow(x):
 
 
 #softmax activation function : 오버플로우 대책 & 배치처리지원 수정
-
 def softmax(x):
     if x.ndim == 2:
         x = x.T

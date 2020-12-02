@@ -1,17 +1,13 @@
 # Sigmoid Layer Test
-
-import numpy as np
-
 import os
 import sys
 from pathlib import Path
-
+import numpy as np
 try:
     sys.path.append(os.path.join(Path(os.getcwd()).parent, 'lib'))
-    from layers import SoftmaxWithLoss, Affine, ReLU
+    from layers import Affine, ReLU, SoftmaxWithLoss
     from common import softmax
     import twolayernet as network
-
 except ImportError:
     print('Library Module Can Not Found')
 
@@ -27,8 +23,10 @@ def backpropagation_gradient_net(x, t):
         if type(layer).__name__ == 'Affine':
             idxaffine += 1
             gradient[f'w{idxaffine}'] = layer.dw
-            gradient[f'w{idxaffine}'] = layer.db
+            gradient[f'b{idxaffine}'] = layer.db
+
     return gradient
+
 
 def backward_propagation(dout):
     for layer in _layers[::-1]:
@@ -41,14 +39,6 @@ def forward_propagation(x, t=None):
     for layer in _layers:
         x = layer.forward(x, t) if type(layer).__name__ == 'SoftmaxWithLoss' and t is not None else layer.forward(x)
 
-        # if type(layer).__name__ == 'SoftmaxWithLoss':
-        #     if t is None:
-        #         x = layer.forward(x)
-        #     else:
-        #         x = layer.forward(x, t)
-        # else:
-        #     x = layer.forward(x)
-
     return x
 
 
@@ -56,37 +46,21 @@ def loss(x, t):
     y = forward_propagation(x, t)
     return y
 
+
 network.forward_propagation = forward_propagation
 network.loss = loss
 
-#===============================
+# ========================================================
 
-# 1. Load training/tet data
+# 1.load training/test data
 _x, _t = np.array([2.6, 3.9, 5.6]), np.array([0, 0, 1])
 
-# 2. hyperparameter
+# 2.hyperparameter
 
 
-#==Numerical Gradient=============================
+# = Numerical Gradient ======================================================
 
-
-# 3. initialize network
-np.random.seed(3)
-network.initialize(3, 2, 3)
-
-_layers = [
-    Affine(network.params['w1'], network.params['b1']),
-    ReLU(),
-    Affine(network.params['w2'],  network.params['b2']),
-    SoftmaxWithLoss()
-]
-
-grad = network.numerical_gradient_net(_x, _t)
-print(grad)
-
-
-#== Backpropagation Gradient=============================
-# 3. initialize network
+# 3.initialize network
 np.random.seed(3)
 network.initialize(3, 2, 3)
 
@@ -97,38 +71,20 @@ _layers = [
     SoftmaxWithLoss()
 ]
 
-grad = backpropagation_gradient_net(_x, _t)
+grad = network.numerical_gradient_net(_x, _t)
 print(grad)
 
+# = backpropagation gradient ======================================================
+# 3.initialize network
+np.random.seed(3)
 
+network.initialize(3, 2, 3)
+_layers = [
+    Affine(network.params['w1'], network.params['b1']),
+    ReLU(),
+    Affine(network.params['w2'], network.params['b2']),
+    SoftmaxWithLoss()
+]
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+grad = backpropagation_gradient_net(_x, _t)
+print(grad)
