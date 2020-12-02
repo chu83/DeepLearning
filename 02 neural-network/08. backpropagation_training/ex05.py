@@ -48,7 +48,7 @@ test_accuracies = []
 #print(iterations)
 
 
-for idx in range(1, train_size+1):
+for idx in range(1, iterations+1):
     print(f'start')
     # 4-1. fetch mini-batch
     batch_mask = np.random.choice(train_size, batch_size)
@@ -62,7 +62,7 @@ for idx in range(1, train_size+1):
     start = time.time()
 
     gradient = network.backpropagation_gradient_net(train_x_batch, train_t_batch)
-    elapsed = time.time() - start
+    elapsed += (time.time() - start)
 
     # 4-3. update parameter
     for key in network.params:
@@ -76,12 +76,12 @@ for idx in range(1, train_size+1):
     if idx % epoch_size == 0:
         epoch_idx += 1
         train_accuracy = network.accuracy(train_x, train_t)
-        train_accuracies = network.accuracy(train_accuracy)
+        train_accuracies.append(train_accuracy)
 
         test_accuracy = network.accuracy(test_x, test_t)
-        test_accuracies = network.accuracy(test_accuracy)
+        test_accuracies.append(test_accuracy)
 
-        print(f'\nEpoch {epoch_idx}/{epochs}')
+        print(f'\nEpoch {epoch_idx:02d}/{epochs:02d}')
 
         print(f'{int(idx/epoch_size)}/{epoch_size}: - elapsed time : {elapsed*1000:.33f}ms - loss :{loss:.3f}, ')
 

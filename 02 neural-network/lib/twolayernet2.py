@@ -69,7 +69,7 @@ def backpropagation_gradient_net(x, t):
         if type(layer).__name__ == 'Affine':
             idxaffine += 1
             gradient[f'w{idxaffine}'] = layer.dw
-            gradient[f'w{idxaffine}'] = layer.db
+            gradient[f'b{idxaffine}'] = layer.db
     return gradient
 
 

@@ -43,6 +43,8 @@ def backward_propagation(dout):
 
     return dout
 
+
+
 def loss(x, t):                        #softmax
     y = forward_propagation(x, t)
 
@@ -69,9 +71,9 @@ def backpropagation_gradient_net(x, t):
         if type(layer).__name__ == 'Affine':
             idxaffine += 1
             gradient[f'w{idxaffine}'] = layer.dw
-            gradient[f'w{idxaffine}'] = layer.db
-    return gradient
+            gradient[f'b{idxaffine}'] = layer.db
 
+    return gradient
 
 def numerical_gradient_net(x, t):
     h = 1e-4
@@ -84,22 +86,23 @@ def numerical_gradient_net(x, t):
         it = np.nditer(param, flags=['multi_index'], op_flags=['readwrite'])
         while not it.finished:
             idx = it.multi_index
-            tmp = param[idx]
+            temp = param[idx]
 
-            param[idx] = tmp + h
+            param[idx] = temp + h
             h1 = loss(x, t)
 
-            param[idx] = tmp - h
+            param[idx] = temp - h
             h2 = loss(x, t)
 
             param_gradient[idx] = (h1 - h2) / (2 * h)
 
-            param[idx] = tmp
+            param[idx] = temp
 
             it.iternext()
 
         gradient[key] = param_gradient
 
     return gradient
+
 
 

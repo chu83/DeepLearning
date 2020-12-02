@@ -38,13 +38,19 @@ train_t_batch = train_t[:3]
 gradient_numerical = network.numerical_gradient_net(train_x_batch, train_t_batch)
 gradient_backpropagation = network.backpropagation_gradient_net(train_x_batch, train_t_batch)
 
-#print(gradient_backpropagation)
+print(gradient_backpropagation)
 
 
-# mean of modules
+# 5.mean of modules
 for key in gradient_numerical:
     diff = np.average(np.abs((gradient_numerical[key] - gradient_backpropagation[key])))
     print(f'{key} difference : {diff}')
+
+# 6. 결론 : 차이가 거의 없다.
+# w1 difference : 2.3264294832276042e-07
+# b1 difference : 2.904062074655762e-06
+# w2 difference : 6.081448935381394e-09
+# b2 difference : 1.3912536609428371e-07
 
 
 
