@@ -23,7 +23,7 @@ x, t = dataset[:, 0:60].astype(float), dataset[:, 60]
 e = LabelEncoder()
 e.fit(t)
 t = e.transform(t)
-t = tf.keras.utils.to_categorical(t)
+#t = tf.keras.utils.to_categorical(t)
 print(t)
 
 # 2. model frame config
@@ -31,10 +31,12 @@ model = Sequential()
 model.add(Dense(20, input_dim=60, activation='relu'))
 model.add(Dense(10, input_dim=60, activation='relu'))
 model.add(Dense(2, input_dim=10, activation='softmax'))
+#model.add(Dense(1, input_dim=10, activation='sigmomid'))
+
 
 # 3. model fitting config
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-
+#model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 # 4. model fitting
 history = model.fit(x, t, epochs=100, batch_size=5, verbose=1)
