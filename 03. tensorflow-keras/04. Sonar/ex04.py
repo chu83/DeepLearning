@@ -42,8 +42,8 @@ for mask_train, mask_test in skf.split(x, t):
     model = Sequential()
     model.add(Dense(20, input_dim=60, activation='relu'))
     model.add(Dense(10, input_dim=60, activation='relu'))
-    #model.add(Dense(1, input_dim=10, activation='sigmoid'))
     model.add(Dense(2, input_dim=10, activation='softmax'))
+    #model.add(Dense(1, input_dim=10, activation='sigmoid'))
 
     # 3. model fitting config
     model.compile(loss='mean_squared_error', optimizer='adam', metrics=['accuracy'])
@@ -51,11 +51,11 @@ for mask_train, mask_test in skf.split(x, t):
 
     # 4. model fitting
     #history = model.fit(x, t, epochs=100, batch_size=5, verbose=1)
-    history = model.fit(x[mask_train], t[mask_train], epochs=200, batch_size=5, verbose=1)
+    history = model.fit(x[mask_train], tf.keras.utils.to_categorical(t[mask_train])ㅋ, epochs=200, batch_size=5, verbose=1)
     t = tf.keras.utils.to_categorical(t)
 
     # 5. result
-    result = model.evaluate(x[mask_test], t[mask_test], verbose=0)
+    result = model.evaluate(x[mask_test],tf.keras.utils.to_categorical(t[mask_test]), verbose=0)
     accuracies.append(result[1])
 
     #loss = history.history['loss']

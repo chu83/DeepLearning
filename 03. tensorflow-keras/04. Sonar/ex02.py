@@ -23,7 +23,7 @@ x, t = dataset[:, 0:60].astype(float), dataset[:, 60]
 e = LabelEncoder()
 e.fit(t)
 t = e.transform(t)
-#t = tf.keras.utils.to_categorical(t)
+t = tf.keras.utils.to_categorical(t)
 print(t)
 
 # 2. model frame config
