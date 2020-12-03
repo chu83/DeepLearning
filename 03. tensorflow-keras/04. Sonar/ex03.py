@@ -24,7 +24,7 @@ x, t = dataset[:, 0:60].astype(float), dataset[:, 60]
 e = LabelEncoder()
 e.fit(t)
 t = e.transform(t)
-t = tf.keras.utils.to_categorical(t)
+#t = tf.keras.utils.to_categorical(t)
 #print(t)
 
 # 1-2 Split Train & Test Dataset
@@ -37,10 +37,12 @@ print(test_x.shape, test_t.shape)
 model = Sequential()
 model.add(Dense(20, input_dim=60, activation='relu'))
 model.add(Dense(10, input_dim=60, activation='relu'))
-model.add(Dense(2, input_dim=10, activation='softmax'))
+#model.add(Dense(10, input_dim=10, activation='sigmoid'))
+model.add(Dense(1, input_dim=10, activation='sigmoid'))
 
 # 3. model fitting config
-model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+model.compile(loss='mean_squared_error', optimizer='adam', metrics=['accuracy'])
+#model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 
 # 4. model fitting
