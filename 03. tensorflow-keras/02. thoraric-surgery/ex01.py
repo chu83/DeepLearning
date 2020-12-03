@@ -1,3 +1,6 @@
+# Pima Indian Diabetes Prediction Model(피마 인디언 당뇨병 예측 모델)
+# Explore Dataset(dataset 탐색)
+
 import pandas as pd
 import numpy as np
 
