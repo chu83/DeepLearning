@@ -14,7 +14,7 @@ from pathlib import Path
 try:
     sys.path.append(os.path.join(Path(os.getcwd()).parent, 'lib'))
     from mnist import load_mnist
-    import twolayernet2 as network
+    import multilayernet as network
 except ImportError:
     print('Library Module Can Not Fount')
 

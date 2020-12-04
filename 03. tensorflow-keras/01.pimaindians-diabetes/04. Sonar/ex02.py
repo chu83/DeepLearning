@@ -14,7 +14,7 @@ from tensorflow.python.keras.layers import Dense
 # 1. load training/test data
 
 
-dataset_file = './dataset/sonar.csv'
+dataset_file = 'dataset/sonar.csv'
 df = pd.read_csv(dataset_file, header = None)
 
 dataset = df.values

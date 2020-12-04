@@ -1,6 +1,7 @@
 # Sonar Mineral binary Classification Model(초음파 광물 예측 모델)
 # Model Fitting(학습)
 
+from datetime import time
 import os
 import numpy as np
 import pandas as pd
@@ -15,7 +16,7 @@ from tensorflow.python.keras.layers import Dense
 # 1-1. load training/test data
 from tensorflow.python.keras.models import load_model
 
-dataset_file = './dataset/sonar.csv'
+dataset_file = 'dataset/sonar.csv'
 df = pd.read_csv(dataset_file, header = None)
 
 dataset = df.values

@@ -1,16 +1,19 @@
-# Training Neural Network
-# Data Set : MNIST Handwritten Digit Dataset
-# Network : TwoLayerNet
-# Test : TwoLayerNet2
-# model fitting(training)
-import pickle
+# Housing Mineral Binary Classification Model
+# Model fitting - dl class version
 import time
 
-import numpy as np
+import pandas as pd
 import os
 import sys
+import numpy as np
 from pathlib import Path
+from matplotlib import pyplot as plt
+import tensorflow as tf
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
 
+from tensorflow.python.keras import Sequential
+from tensorflow.python.keras.layers import Dense
 try:
     sys.path.append(os.path.join(Path(os.getcwd()).parent, 'lib'))
     from mnist import load_mnist
@@ -19,9 +22,25 @@ except ImportError:
     print('Library Module Can Not Fount')
 
 
-# 1. load training / test data
-(train_x, train_t), (test_x, test_t) = load_mnist(normalize = True, flatten = True, one_hot_label = True)
+# 1. load training/test data
 
+
+dataset_file = './dataset/sonar.csv'
+df = pd.read_csv(dataset_file, header = None)
+
+dataset = df.values
+
+x = dataset[:, 0:13]
+t = dataset[:, 13]
+
+train_x, test_x, train_t, test_t = train_test_split(x, t, test_size=0.3, random_state=0)
+
+
+# 2. model frame config
+model = Sequential()
+model.add(Dense(20, input_dim=60, activation='relu'))
+model.add(Dense(10, input_dim=60, activation='relu'))
+model.add(Dense(2, input_dim=10, activation='softmax'))
 
 # 2. hyperparameters
 
@@ -40,12 +59,6 @@ iterations = epochs * epoch_size
 
 elapsed = 0
 epoch_idx = 0
-
-train_losses = []
-train_accuracies = []
-test_accuracies = []
-
-#print(iterations)
 
 
 for idx in range(1, iterations+1):
@@ -86,32 +99,3 @@ for idx in range(1, iterations+1):
         print(f'{int(idx/epoch_size)}/{epoch_size}: - elapsed time : {elapsed*1000:.3f}ms - loss :{loss:.3f}, ')
 
         elapsed = 0
-
-# 5. fitting history
-model_directory = os.path.join(os.getcwd(), 'model')
-if not os.path.exists(model_directory):
-    os.mkdir(model_directory)
-
-params_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_params.pkl')
-trainloss_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_train_loss.pkl')
-trainacc_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_trainacc.pkl')
-testacc_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_testacc.pkl')
-
-print(f'\n save model...')
-
-with open(params_file, 'wb') as f_params,\
-        open(trainloss_file, 'wb') as f_trainloss,\
-        open(trainacc_file, 'wb') as f_trainacc,\
-        open(testacc_file, 'wb') as f_testacc:
-    pickle.dump(network.params, f_params, -1)
-    pickle.dump(train_losses, f_trainloss, -1)
-    pickle.dump(train_accuracies, f_trainacc, -1)
-    pickle.dump(test_accuracies, f_testacc, -1)
-
-
-print('Done')
-
-
-
-
-

@@ -17,12 +17,19 @@ params = dict()
 layers = []
 
 def initialize(input_size, hidden_size, output_size, init_weight=0.01, init_params=None):
-    if init_params is None:
-        params['w1'] = init_weight * np.random.randn(input_size, hidden_size)
-        params['b1'] = np.zeros(hidden_size)
-        params['w2'] = init_weight * np.random.randn(hidden_size, output_size)
-        params['b2'] = np.zeros(output_size)
+    hidden_count = len(hidden_size)
 
+
+    if init_params is None:
+        params['w1'] = init_weight * np.random.randn(input_size, hidden_size[0])
+        params['b1'] = np.zeros(hidden_size[0])
+
+        for idx in range(1, hidden_count):
+            params[f'w{idx+1}'] = init_weight * np.random.randn(hidden_size[idx-1], output_size[idx])
+            params[f'b{idx+1}'] = np.zeros(hidden_size[idx])
+
+        params[f'w{hidden_count+1}'] = init_weight * np.random.randn(hidden_size[idx-1], output_size[idx])
+        params[f'b{hidden_count+1}'] = np.zeros(output_size)
     else:
         globals()['params'] = init_params   #전역, 네임테이블(전역은 쓰지 않는게 좋다..)
 
